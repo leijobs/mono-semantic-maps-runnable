@@ -3,10 +3,10 @@
 ### Training options ###
 
 # IDs of GPUs to use during training
-gpus: [0, 2, 3, 4]
+gpus: [0]
 
 # Number of examples per mini-batch
-batch_size: 12
+batch_size: 4
 
 # Number of dataloader threads
 num_workers: 8
@@ -24,7 +24,7 @@ weight_decay: 0.0001
 logdir: logs
 
 # Number of epochs to train for
-num_epochs: 200
+num_epochs: 100
 
 # Number of examples per epoch
 epoch_size: 50000
@@ -48,7 +48,9 @@ dataroot: ${DATA_ROOT}/nuscenes
 nuscenes_version: v1.0-trainval
 
 # Directory containing pregenerated training labels
-label_root: ${PROCESSED_ROOT}/nuscenes/map-labels-v1.2
+label_root: /home/hosico/Dataset/hdd1/Dataset/nuscenes/bev_maps
+
+output_path: /home/hosico/Dataset/hdd1/Dataset/nuscenes/bev_maps
 
 # Input image size after downsampling
 img_size: [800, 600]

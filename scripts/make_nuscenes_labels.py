@@ -1,5 +1,7 @@
 import os
 import sys
+import cv2
+
 import numpy as np
 from PIL import Image
 from tqdm import tqdm
@@ -53,7 +55,7 @@ def process_sample_data(nuscenes, map_data, sample_data, lidar, config):
                                          sample_data, 
                                          config.map_extents, 
                                          config.map_resolution)
-    
+
     # Render dynamic object masks
     obj_masks = nusc_utils.get_object_masks(nuscenes, 
                                             sample_data, 
@@ -71,8 +73,14 @@ def process_sample_data(nuscenes, map_data, sample_data, lidar, config):
     # Transform lidar points into camera coordinates
     cam_transform = nusc_utils.get_sensor_transform(nuscenes, sample_data)
     cam_points = transform(np.linalg.inv(cam_transform), lidar)
-    masks[-1] |= get_occlusion_mask(cam_points, config.map_extents,
+    occlusion_mask = get_occlusion_mask(cam_points, config.map_extents,
                                     config.map_resolution)
+
+    k = np.ones((5, 5), np.uint8)
+    eroded = cv2.erode(occlusion_mask.astype(np.uint8), k)
+    eroded_new = eroded.astype(bool)
+
+    masks[-1] |= eroded_new
     
     # Encode masks as integer bitmask
     labels = encode_binary_labels(masks)
@@ -80,6 +88,7 @@ def process_sample_data(nuscenes, map_data, sample_data, lidar, config):
     # Save outputs to disk
     output_path = os.path.join(os.path.expandvars(config.label_root),
                                sample_data['token'] + '.png')
+
     Image.fromarray(labels.astype(np.int32), mode='I').save(output_path)
 
 
@@ -126,7 +135,7 @@ if __name__ == '__main__':
 
     # Load the default configuration
     config = get_default_configuration()
-    config.merge_from_file('configs/datasets/nuscenes.yml')
+    config.merge_from_file('../configs/datasets/nuscenes.yml')
 
     # Load NuScenes dataset
     dataroot = os.path.expandvars(config.dataroot)
@@ -159,4 +168,5 @@ if __name__ == '__main__':
 
 
     
+
 
