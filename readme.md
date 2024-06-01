@@ -1,3 +1,21 @@
+# Mono-semantic-maps-runnable
+
+This is a simple modified version of [original repo](https://github.com/tom-roddick/mono-semantic-maps).
+
+## Modification
+
+- [x] check data generation and simple solve issue of black area[issue 12](https://github.com/tom-roddick/mono-semantic-maps/issues/12)
+- [x] explain issue [issue 10](https://github.com/tom-roddick/mono-semantic-maps/issues/10)
+- [x] add pretrained model at [here](https://github.com/leijobs/mono-semantic-maps-runnable/logs)
+- [x] add demo.py for visualization of single image in `demo.py`
+
+
+## Visualization
+
+|![](./images/visualization/Figure_1.png)|![](./images/visualization/Figure_2.png)|![](./images/visualization/Figure_3.png)|
+|:-:|:-:|:-:|
+
+
 # Predicting Semantic Map Representations from Images with Pyramid Occupancy Networks
 
 This is the code associated with the paper [Predicting Semantic Map Representations from Images with Pyramid Occupancy Networks](https://arxiv.org/pdf/2003.13402.pdf), published at CVPR 2020.
