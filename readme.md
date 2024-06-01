@@ -17,6 +17,8 @@ This is a simple modified version of [original repo](https://github.com/tom-rodd
 > num_workers: 8
 > 
 > Gpu: 8910MiB
+>
+> epoch: 20
 
 ## Visualization
 
