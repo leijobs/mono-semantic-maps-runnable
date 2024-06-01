@@ -24,6 +24,12 @@ This is a simple modified version of [original repo](https://github.com/tom-rodd
 |:-:|:-:|:-:|
 
 
+## Issue explanation
+
+* issue [issue 10](https://github.com/tom-roddick/mono-semantic-maps/issues/10)
+
+>  This upside-down and black label is normal and will produce normal results during training, it's OK.
+
 # Predicting Semantic Map Representations from Images with Pyramid Occupancy Networks
 
 This is the code associated with the paper [Predicting Semantic Map Representations from Images with Pyramid Occupancy Networks](https://arxiv.org/pdf/2003.13402.pdf), published at CVPR 2020.
