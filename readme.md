@@ -22,8 +22,8 @@ This is a simple modified version of [original repo](https://github.com/tom-rodd
 
 ## Visualization
 
-|![](./images/visualization/Figure_1.png)|![](./images/visualization/Figure_2.png)|![](./images/visualization/Figure_3.png)|
-|:-:|:-:|:-:|
+|![](./images/CAM_FRONT/n015-2018-07-24-11-22-45%2B0800__CAM_FRONT__1532402927612460.jpg)|![](./images/visualization/Figure_1.png)|![](./images/visualization/Figure_2.png)|![](./images/visualization/Figure_3.png)|
+|:-:|:-:|:-:|:-:|
 
 
 ## Issue explanation
