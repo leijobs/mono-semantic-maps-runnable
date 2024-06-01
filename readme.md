@@ -10,6 +10,14 @@ This is a simple modified version of [original repo](https://github.com/tom-rodd
 - [x] add demo.py for visualization of single image in `demo.py`
 
 
+## Training Info
+
+> batch_size: 4
+> 
+> num_workers: 8
+> 
+> Gpu: 8910MiB
+
 ## Visualization
 
 |![](./images/visualization/Figure_1.png)|![](./images/visualization/Figure_2.png)|![](./images/visualization/Figure_3.png)|
