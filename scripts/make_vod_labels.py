@@ -2,44 +2,16 @@ import os
 import sys
 import numpy as np
 from PIL import Image
-from progressbar import ProgressBar
+# from progressbar import ProgressBar
 
-from argoverse.map_representation.map_api import ArgoverseMap
-from argoverse.data_loading.argoverse_tracking_loader \
-    import ArgoverseTrackingLoader
-from argoverse.utils.camera_stats import RING_CAMERA_LIST
+from vod.configuration import KittiLocations
+from vod.frame import FrameDataLoader
 
 sys.path.append(os.path.abspath(os.path.join(__file__, '../..')))
 
 from src.utils.configs import get_default_configuration
-from src.data.utils import get_visible_mask, get_occlusion_mask, \
-    encode_binary_labels
+from src.data.utils import get_visible_mask, get_occlusion_mask, encode_binary_labels
 from src.data.argoverse.utils import get_object_masks, get_map_mask
-
-
-def process_split(split, map_data, config):
-    # Create an Argoverse loader instance
-    path = os.path.join(os.path.expandvars(config.argoverse.root), split)
-    print("Loading Argoverse tracking data at " + path)
-    loader = ArgoverseTrackingLoader(path)
-
-    for scene in loader:
-        process_scene(split, scene, map_data, config)
-
-
-def process_scene(split, scene, map_data, config):
-    print("\n\n==> Processing scene: " + scene.current_log)
-
-    i = 0
-    progress = ProgressBar(
-        max_value=len(RING_CAMERA_LIST) * scene.num_lidar_frame)
-
-    # Iterate over each camera and each frame in the sequence
-    for camera in RING_CAMERA_LIST:
-        for frame in range(scene.num_lidar_frame):
-            progress.update(i)
-            process_frame(split, scene, camera, frame, map_data, config)
-            i += 1
 
 
 def process_frame(split, scene, camera, frame, map_data, config):
@@ -79,12 +51,35 @@ def process_frame(split, scene, camera, frame, map_data, config):
 if __name__ == '__main__':
 
     config = get_default_configuration()
-    config.merge_from_file('configs/datasets/vod.yml')
+    config.merge_from_file('../configs/datasets/vod.yml')
 
-    # Create an Argoverse map instance
-    map_data = ArgoverseMap()
+    # Create an vod instance
+    root_dir = r"/home/hosico/Dataset/hdd1/Dataset/TUDelft_VOD_dataset/vod"
+    kitti_locations = KittiLocations(root_dir=root_dir,
+                                     output_dir="example_output",
+                                     frame_set_path="",
+                                     pred_dir="",
+                                     )
 
-    for split in ['train', 'val']:
-        process_split(split, map_data, config)
+    # get train and val
+    train_list = []
+    val_list = []
+    train_txt = os.path.join(root_dir, 'lidar/ImageSets/train.txt')
+    val_txt = os.path.join(root_dir, 'lidar/ImageSets/val.txt')
+    with open(train_txt, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            train_list.append(line.strip())
+
+    with open(val_txt, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            val_list.append(line.strip())
+
+    for split in [train_list, val_list]:
+        for frame_index in split:
+            frame_data = FrameDataLoader(kitti_locations=kitti_locations, frame_number=frame_index)
+            transforms = FrameTransformMatrix(frame_data)
+            lidar2camera = transforms.t_lidar_camera
 
 
