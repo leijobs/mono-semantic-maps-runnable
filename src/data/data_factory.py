@@ -10,6 +10,10 @@ from argoverse.data_loading.argoverse_tracking_loader import ArgoverseTrackingLo
 from .argoverse.dataset import ArgoverseMapDataset
 from .argoverse.splits import TRAIN_LOGS, VAL_LOGS
 
+from vod import vod
+from .vod.dataset import VodDataset
+from .vod.splits import TRAIN_SCENES, VAL_SCENES, CALIBRATION_SCENES
+
 
 def build_nuscenes_datasets(config):
     print('==> Loading NuScenes dataset...')
@@ -40,9 +44,27 @@ def build_argoverse_datasets(config):
     }
 
     # Create datasets using new argoverse splits
-    train_data = ArgoverseMapDataset(loaders, config.label_root, 
+    train_data = ArgoverseMapDataset(loaders, config.label_root,
                                      config.img_size, TRAIN_LOGS)
-    val_data = ArgoverseMapDataset(loaders, config.label_root, 
+    val_data = ArgoverseMapDataset(loaders, config.label_root,
+                                   config.img_size, VAL_LOGS)
+    return train_data, val_data
+
+
+def build_vod_datasets(config):
+    print('==> Loading VOD dataset...')
+    vod = NuScenes(config.nuscenes_version, os.path.expandvars(config.dataroot))
+
+    # Load native argoverse splits
+    loaders = {
+        'train': VoDDataset(os.path.join(dataroot, 'train')),
+        'val': VoDDataset(os.path.join(dataroot, 'val'))
+    }
+
+    # Create datasets using new argoverse splits
+    train_data = VoDDataset(loaders, config.label_root,
+                                     config.img_size, TRAIN_LOGS)
+    val_data = VoDDataset(loaders, config.label_root,
                                    config.img_size, VAL_LOGS)
     return train_data, val_data
 
@@ -52,6 +74,8 @@ def build_datasets(dataset_name, config):
         return build_nuscenes_datasets(config)
     elif dataset_name == 'argoverse':
         return build_argoverse_datasets(config)
+    elif dataset_name == 'vod':
+        return build_vod_datasets(config)
     else:
         raise ValueError(f"Unknown dataset option '{dataset_name}'")
 
