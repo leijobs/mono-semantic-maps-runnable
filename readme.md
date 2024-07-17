@@ -4,7 +4,7 @@ This is a simple modified version of [original repo](https://github.com/tom-rodd
 
 ## Modification
 
-- [x] check data generation and simple solve issue of black area[issue 12](https://github.com/tom-roddick/mono-semantic-maps/issues/12)
+- [x] check data generation and simple solve issue of black area [issue 12](https://github.com/tom-roddick/mono-semantic-maps/issues/12)
 - [x] explain issue [issue 10](https://github.com/tom-roddick/mono-semantic-maps/issues/10)
 - [x] add pretrained model at [here](https://drive.google.com/drive/folders/1NnGX7xyqGTWVqzEY1B3M-NEk0Xh7sJWK?usp=sharing)
 - [x] add demo.py for visualization of single image in `demo.py`
